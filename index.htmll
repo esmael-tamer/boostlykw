@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext, forwardRef } from 'react';
+import React, { useState, useEffect, createContext, useContext, forwardRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, Users, Zap, Menu, X, Shield, Clock, Headphones as HeadphonesIcon, CreditCard, Instagram, Facebook, Youtube, Twitter, MessageCircle, Quote, Mail, Phone, MapPin, ShoppingCart, Globe, CheckCircle, Gift } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import * as ToastPrimitives from '@radix-ui/react-toast';
 import { cva } from 'class-variance-authority';
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 // Helper: cn (for merging Tailwind classes)
 function cn(...inputs) {
@@ -17,6 +18,32 @@ const handleScroll = (id) => {
     const element = document.getElementById(id);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
+
+const ANALYTICS_STORAGE_KEY = 'boostly-analytics';
+
+const getStoredAnalytics = () => {
+    if (typeof window === 'undefined') {
+        return null;
+    }
+    try {
+        const stored = window.localStorage.getItem(ANALYTICS_STORAGE_KEY);
+        return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+        console.error('فشل في قراءة بيانات التحليلات من التخزين المحلي', error);
+        return null;
+    }
+};
+
+const setStoredAnalytics = (analytics) => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+    try {
+        window.localStorage.setItem(ANALYTICS_STORAGE_KEY, JSON.stringify(analytics));
+    } catch (error) {
+        console.error('فشل في حفظ بيانات التحليلات في التخزين المحلي', error);
     }
 };
 
@@ -189,11 +216,12 @@ TabsContent.displayName = TabsPrimitive.Content.displayName;
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
-      { name: 'الرئيسية', id: 'hero' }, 
-      { name: 'الباقات الأكثر طلباً', id: 'featured-packages' }, 
-      { name: 'جميع الباقات', id: 'pricing' }, 
-      { name: 'خدماتنا', id: 'services' }, 
-      { name: 'آراء العملاء', id: 'testimonials' }, 
+      { name: 'الرئيسية', id: 'hero' },
+      { name: 'الباقات الأكثر طلباً', id: 'featured-packages' },
+      { name: 'جميع الباقات', id: 'pricing' },
+      { name: 'خدماتنا', id: 'services' },
+      { name: 'لوحة التحكم', id: 'dashboard' },
+      { name: 'آراء العملاء', id: 'testimonials' },
       { name: 'اتصل بنا', id: 'contact' }
     ];
 
@@ -291,6 +319,14 @@ const FeaturedPackages = () => {
     const handlePlanSelect = (platform, planName, price) => {
         const message = `أهلاً Boostly،\n\nأود طلب الباقة التالية:\n- المنصة: *${platform}*\n- الباقة: *${planName}*\n- السعر: *${price}*\n\nالرجاء تأكيد الطلب.`;
         const encodedMessage = encodeURIComponent(message);
+        if (typeof window !== 'undefined' && window.boostlyAnalytics?.recordOrder) {
+            window.boostlyAnalytics.recordOrder({
+                platform,
+                packageName: planName,
+                price,
+                source: 'الباقات الأكثر طلباً'
+            });
+        }
         window.open(`https://wa.me/96560930205?text=${encodedMessage}`, '_blank');
     };
 
@@ -369,6 +405,373 @@ const Services = () => {
     );
 };
 
+const Dashboard = () => {
+    const [analytics, setAnalytics] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const loadAnalytics = useCallback(async (forceRemote = false) => {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+
+        const stored = getStoredAnalytics();
+        if (!forceRemote && stored) {
+            return stored;
+        }
+
+        const response = await fetch('/analytics.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error('تعذر تحميل ملف التحليلات');
+        }
+        const data = await response.json();
+
+        const mergeDailyTrends = (primary = [], secondary = []) => {
+            const map = new Map();
+            (primary || []).forEach((item) => {
+                if (!item?.date) return;
+                map.set(item.date, { ...item });
+            });
+            (secondary || []).forEach((item) => {
+                if (!item?.date) return;
+                const existing = map.get(item.date);
+                if (existing) {
+                    existing.visits = Math.max(existing.visits ?? 0, item.visits ?? 0);
+                    existing.orders = Math.max(existing.orders ?? 0, item.orders ?? 0);
+                    existing.sales = Math.max(existing.sales ?? 0, item.sales ?? 0);
+                    if (!existing.label && item.label) {
+                        existing.label = item.label;
+                    }
+                } else {
+                    map.set(item.date, { ...item });
+                }
+            });
+            return Array.from(map.values())
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(-14);
+        };
+
+        if (stored) {
+            const mergedMetrics = {
+                ...(data.metrics || {}),
+                ...(stored.metrics || {})
+            };
+
+            if (data.metrics || stored.metrics) {
+                mergedMetrics.visits = Math.max(data.metrics?.visits ?? 0, stored.metrics?.visits ?? 0);
+                mergedMetrics.orders = Math.max(data.metrics?.orders ?? 0, stored.metrics?.orders ?? 0);
+                mergedMetrics.sales = Math.max(data.metrics?.sales ?? 0, stored.metrics?.sales ?? 0);
+                mergedMetrics.avgOrderValue = Math.max(data.metrics?.avgOrderValue ?? 0, stored.metrics?.avgOrderValue ?? 0);
+                mergedMetrics.conversionRate = Math.max(data.metrics?.conversionRate ?? 0, stored.metrics?.conversionRate ?? 0);
+                mergedMetrics.visitsChange = data.metrics?.visitsChange ?? stored.metrics?.visitsChange;
+                mergedMetrics.ordersChange = data.metrics?.ordersChange ?? stored.metrics?.ordersChange;
+                mergedMetrics.salesChange = data.metrics?.salesChange ?? stored.metrics?.salesChange;
+                mergedMetrics.conversionChange = data.metrics?.conversionChange ?? stored.metrics?.conversionChange;
+                mergedMetrics.aovChange = data.metrics?.aovChange ?? stored.metrics?.aovChange;
+            }
+
+            data.metrics = mergedMetrics;
+
+            if (stored.recentOrders?.length) {
+                const existingIds = new Set((data.recentOrders || []).map((order) => order.id));
+                const mergedOrders = [
+                    ...stored.recentOrders.filter((order) => order && !existingIds.has(order.id)),
+                    ...(data.recentOrders || [])
+                ];
+                data.recentOrders = mergedOrders.slice(0, 8);
+            }
+
+            if (stored.dailyTrends?.length) {
+                data.dailyTrends = mergeDailyTrends(data.dailyTrends, stored.dailyTrends);
+            }
+        }
+
+        setStoredAnalytics(data);
+        return data;
+    }, []);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const bootstrap = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const data = await loadAnalytics();
+                if (!cancelled && data) {
+                    setAnalytics(data);
+                }
+            } catch (err) {
+                console.error(err);
+                if (!cancelled) {
+                    const fallback = getStoredAnalytics();
+                    if (fallback) {
+                        setAnalytics(fallback);
+                    }
+                    setError('تعذر تحميل بيانات التحليلات حالياً.');
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        bootstrap();
+
+        const handleUpdate = (event) => {
+            const detail = event?.detail;
+            const nextAnalytics = detail
+                ? JSON.parse(JSON.stringify(detail))
+                : getStoredAnalytics();
+
+            if (!cancelled && nextAnalytics) {
+                setAnalytics(nextAnalytics);
+            }
+        };
+
+        window.addEventListener('analytics-updated', handleUpdate);
+        window.addEventListener('storage', handleUpdate);
+
+        return () => {
+            cancelled = true;
+            window.removeEventListener('analytics-updated', handleUpdate);
+            window.removeEventListener('storage', handleUpdate);
+        };
+    }, [loadAnalytics]);
+
+    const handleRefresh = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await loadAnalytics(true);
+            if (data) {
+                setAnalytics(data);
+            }
+        } catch (err) {
+            console.error(err);
+            setError('لم نتمكن من تحديث البيانات الآن.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formatNumber = (value) => {
+        if (typeof value !== 'number') return '—';
+        return value.toLocaleString('ar-EG');
+    };
+
+    const formatCurrency = (value) => {
+        if (typeof value !== 'number') return '—';
+        return new Intl.NumberFormat('ar-EG', {
+            style: 'currency',
+            currency: 'KWD',
+            minimumFractionDigits: 2
+        }).format(value);
+    };
+
+    const getChangeBadge = (change) => {
+        if (typeof change !== 'number') return { label: '—', color: 'text-gray-300' };
+        const sign = change > 0 ? '+' : '';
+        const color = change >= 0 ? 'text-emerald-400' : 'text-rose-400';
+        return { label: `${sign}${change.toFixed(1)}%`, color };
+    };
+
+    const metricCards = [
+        {
+            key: 'visits',
+            label: 'إجمالي الزيارات',
+            value: analytics?.metrics?.visits ?? 0,
+            change: analytics?.metrics?.visitsChange,
+            icon: Globe,
+            formatter: formatNumber
+        },
+        {
+            key: 'orders',
+            label: 'إجمالي الطلبات',
+            value: analytics?.metrics?.orders ?? 0,
+            change: analytics?.metrics?.ordersChange,
+            icon: ShoppingCart,
+            formatter: formatNumber
+        },
+        {
+            key: 'sales',
+            label: 'إجمالي المبيعات',
+            value: analytics?.metrics?.sales ?? 0,
+            change: analytics?.metrics?.salesChange,
+            icon: CreditCard,
+            formatter: formatCurrency
+        },
+        {
+            key: 'conversionRate',
+            label: 'معدل التحويل',
+            value: analytics?.metrics?.conversionRate ?? 0,
+            change: analytics?.metrics?.conversionChange,
+            icon: CheckCircle,
+            formatter: (value) => `${value?.toFixed ? value.toFixed(1) : value}%`
+        },
+        {
+            key: 'avgOrderValue',
+            label: 'متوسط قيمة الطلب',
+            value: analytics?.metrics?.avgOrderValue ?? 0,
+            change: analytics?.metrics?.aovChange,
+            icon: Gift,
+            formatter: formatCurrency
+        }
+    ];
+
+    const dailyTrends = analytics?.dailyTrends ?? [];
+    const trafficSources = analytics?.trafficSources ?? [];
+    const recentOrders = analytics?.recentOrders ?? [];
+
+    return (
+        <section id="dashboard" className="py-20 px-4 bg-white/5">
+            <div className="container mx-auto">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
+                    <div>
+                        <h2 className="text-4xl lg:text-5xl font-bold mb-4"><span className="gradient-text">لوحة التحكم</span> التحليلية</h2>
+                        <p className="text-xl text-gray-200 max-w-3xl">تابع مؤشرات الأداء الرئيسية، تطور الزيارات اليومية، وآخر الطلبات التي تم إنشاؤها من خلال الموقع.</p>
+                    </div>
+                    <div className="flex items-center gap-3 self-start lg:self-auto">
+                        <Button onClick={handleRefresh} className="btn-primary px-6 py-3">تحديث البيانات</Button>
+                        {loading && <span className="text-sm text-gray-300">جارِ التحديث...</span>}
+                    </div>
+                </div>
+
+                {error && (
+                    <div className="dashboard-alert text-sm md:text-base mb-10">
+                        {error}
+                    </div>
+                )}
+
+                {loading && !analytics ? (
+                    <div className="dashboard-loading">جارِ تحميل بيانات لوحة التحكم...</div>
+                ) : (
+                    <div className="space-y-12">
+                        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+                            {metricCards.map((metric) => {
+                                const Icon = metric.icon;
+                                const { label, color } = getChangeBadge(metric.change);
+                                return (
+                                    <div key={metric.key} className="metric-card">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <div className="metric-icon">
+                                                <Icon className="h-6 w-6" />
+                                            </div>
+                                            <span className={cn('text-sm font-medium', color)}>{label}</span>
+                                        </div>
+                                        <span className="text-sm text-gray-300 block mb-2">{metric.label}</span>
+                                        <span className="text-3xl font-bold text-white">{metric.formatter(metric.value)}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="grid gap-8 xl:grid-cols-3">
+                            <div className="xl:col-span-2 dashboard-panel">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-white mb-2">الاتجاه اليومي للزيارات والطلبات</h3>
+                                        <p className="text-sm text-gray-300">مخطط تراكمي يوضح تطور الأداء خلال آخر 14 يوماً.</p>
+                                    </div>
+                                </div>
+                                <div className="h-72">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <AreaChart data={dailyTrends} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                                            <defs>
+                                                <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#8851a5" stopOpacity={0.8} />
+                                                    <stop offset="95%" stopColor="#8851a5" stopOpacity={0} />
+                                                </linearGradient>
+                                                <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#e462a2" stopOpacity={0.8} />
+                                                    <stop offset="95%" stopColor="#e462a2" stopOpacity={0} />
+                                                </linearGradient>
+                                            </defs>
+                                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                                            <XAxis dataKey="label" stroke="#cbd5f5" tickLine={false} axisLine={false} />
+                                            <YAxis stroke="#cbd5f5" tickLine={false} axisLine={false} tickFormatter={(value) => value.toLocaleString('ar-EG')} />
+                                            <Tooltip contentStyle={{ backgroundColor: '#1f153f', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }} />
+                                            <Area type="monotone" dataKey="visits" name="الزيارات" stroke="#8851a5" fill="url(#colorVisits)" strokeWidth={2} />
+                                            <Area type="monotone" dataKey="orders" name="الطلبات" stroke="#e462a2" fill="url(#colorOrders)" strokeWidth={2} />
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
+                            <div className="dashboard-panel">
+                                <h3 className="text-xl font-bold text-white mb-4">أفضل مصادر الزيارات</h3>
+                                <p className="text-sm text-gray-300 mb-6">تفاصيل القنوات التي تولد أكبر عدد من الجلسات المحولة.</p>
+                                <div className="space-y-4">
+                                    {trafficSources.length === 0 && (
+                                        <p className="text-sm text-gray-300">لم يتم تسجيل مصادر زيارات بعد، ستظهر البيانات هنا بمجرد توفرها.</p>
+                                    )}
+                                    {trafficSources.map((source) => (
+                                        <div key={source.name} className="traffic-source">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className="font-medium text-white">{source.name}</span>
+                                                <span className="text-sm text-gray-300">{formatNumber(source.sessions)} زيارة</span>
+                                            </div>
+                                            <div className="traffic-progress">
+                                                <div className="traffic-progress-bar" style={{ width: `${source.share}%` }} />
+                                            </div>
+                                            <span className="text-xs text-gray-400">حصة {source.share}% من إجمالي الزيارات</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="dashboard-panel">
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-2">الطلبات الحديثة</h3>
+                                    <p className="text-sm text-gray-300">آخر الطلبات الواردة عبر الموقع مع حالتها الحالية.</p>
+                                </div>
+                                <span className="text-sm text-gray-300">يتم التحديث عند إنشاء طلب جديد.</span>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="dashboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>رقم الطلب</th>
+                                            <th>العميل</th>
+                                            <th>الباقة</th>
+                                            <th>القيمة</th>
+                                            <th>الحالة</th>
+                                            <th>التاريخ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {recentOrders.length === 0 && (
+                                            <tr>
+                                                <td colSpan={6} className="text-center text-gray-300 py-6">لا توجد طلبات مسجلة حتى الآن.</td>
+                                            </tr>
+                                        )}
+                                        {recentOrders.map((order) => (
+                                            <tr key={order.id}>
+                                                <td>{order.id}</td>
+                                                <td>{order.customer}</td>
+                                                <td>{order.package}</td>
+                                                <td>{formatCurrency(order.total)}</td>
+                                                <td>
+                                                    <span className={cn('status-badge', `status-${order.statusCode || 'pending'}`)}>
+                                                        {order.status}
+                                                    </span>
+                                                </td>
+                                                <td>{order.date}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+};
+
 const Pricing = () => {
     const pricingData = {
         instagram: [
@@ -397,6 +800,14 @@ const Pricing = () => {
     const handlePlanSelect = (platform, planName, price) => {
         const message = `أهلاً Boostly،\n\nأود طلب الباقة التالية:\n- المنصة: *${platform}*\n- الباقة: *${planName}*\n- السعر: *${price}*\n\nالرجاء تأكيد الطلب.`;
         const encodedMessage = encodeURIComponent(message);
+        if (typeof window !== 'undefined' && window.boostlyAnalytics?.recordOrder) {
+            window.boostlyAnalytics.recordOrder({
+                platform,
+                packageName: planName,
+                price,
+                source: 'قائمة الباقات'
+            });
+        }
         window.open(`https://wa.me/96560930205?text=${encodedMessage}`, '_blank');
     };
 
@@ -602,7 +1013,7 @@ const Footer = () => {
         { icon: Instagram, name: 'instagram', url: 'https://www.instagram.com/boostly_kw?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==' },
         { icon: TikTokIcon, name: 'tiktok', url: 'https://www.tiktok.com/@boostly_kw?_t=ZS-8xXvkGcSE1B&_r=1' },
     ];
-    const navLinks = [{ name: 'الرئيسية', id: 'hero' }, { name: 'الأسعار', id: 'pricing' }, { name: 'الخدمات', id: 'services' }, { name: 'آراء العملاء', id: 'testimonials' }, { name: 'المدونة', id: 'blog' }, { name: 'اتصل بنا', id: 'contact' }];
+    const navLinks = [{ name: 'الرئيسية', id: 'hero' }, { name: 'الأسعار', id: 'pricing' }, { name: 'الخدمات', id: 'services' }, { name: 'لوحة التحكم', id: 'dashboard' }, { name: 'آراء العملاء', id: 'testimonials' }, { name: 'المدونة', id: 'blog' }, { name: 'اتصل بنا', id: 'contact' }];
     const policyLinks = ['سياسة الخصوصية', 'شروط الاستخدام', 'سياسة الاسترداد'];
 
     return (
@@ -723,6 +1134,7 @@ export default function App() {
             <FeaturedPackages />
             <Features />
             <Services />
+            <Dashboard />
             <Pricing />
             <Stats />
             <Testimonials />

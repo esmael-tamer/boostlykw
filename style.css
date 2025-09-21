@@ -20,3 +20,171 @@ footer a { color: #c7a4ff; text-decoration: none; }
 footer a:hover { color: #ffffff; text-decoration: underline; }
 .store-logo { max-height: 100px; margin-bottom: 15px; }
 .snapchat-icon { color: #FFFC00; -webkit-text-stroke: 1px #a9a600; text-stroke: 1px #a9a600; }
+
+/* --- Dashboard Styles --- */
+.dashboard-loading {
+    background: rgba(136, 81, 165, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    color: #e4e2ff;
+    font-size: 1.1rem;
+    box-shadow: 0 18px 36px rgba(136, 81, 165, 0.18);
+}
+
+.dashboard-alert {
+    background: linear-gradient(135deg, rgba(228, 98, 162, 0.18), rgba(246, 153, 128, 0.12));
+    border: 1px solid rgba(228, 98, 162, 0.35);
+    padding: 18px 22px;
+    border-radius: 14px;
+    color: #ffe7f3;
+    box-shadow: 0 15px 30px rgba(228, 98, 162, 0.18);
+}
+
+.metric-card {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 20px 40px rgba(23, 14, 57, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at top right, rgba(228, 98, 162, 0.28), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 44px rgba(136, 81, 165, 0.25);
+}
+
+.metric-card:hover::after {
+    opacity: 1;
+}
+
+.metric-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(136, 81, 165, 0.25), rgba(228, 98, 162, 0.2));
+    color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.dashboard-panel {
+    background: linear-gradient(160deg, rgba(25, 17, 60, 0.9) 0%, rgba(25, 17, 60, 0.65) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 24px 48px rgba(14, 9, 38, 0.45);
+    backdrop-filter: blur(12px);
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    color: #f9f7ff;
+}
+
+.dashboard-table thead th {
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.68);
+    padding-bottom: 12px;
+}
+
+.dashboard-table tbody tr {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 30px rgba(17, 11, 45, 0.35);
+}
+
+.dashboard-table tbody td {
+    padding: 18px 16px;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dashboard-table tbody tr:first-child td {
+    border-top: none;
+}
+
+.dashboard-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.status-completed {
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.status-processing {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.status-pending {
+    background: rgba(234, 179, 8, 0.15);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.status-cancelled {
+    background: rgba(248, 113, 113, 0.18);
+    color: #fecaca;
+    border: 1px solid rgba(248, 113, 113, 0.35);
+}
+
+.traffic-source {
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 30px rgba(20, 15, 45, 0.35);
+}
+
+.traffic-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.traffic-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #8851a5 0%, #e462a2 60%, #f69980 100%);
+    border-radius: inherit;
+}
