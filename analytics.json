@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2025-02-10T08:30:00Z",
+  "metrics": {
+    "visits": 18240,
+    "visitsChange": 12.4,
+    "sales": 4875.6,
+    "salesChange": 9.3,
+    "orders": 642,
+    "ordersChange": 7.8,
+    "conversionRate": 3.5,
+    "conversionChange": 0.6,
+    "avgOrderValue": 7.6,
+    "aovChange": 1.1
+  },
+  "dailyTrends": [
+    { "date": "2025-01-28", "label": "٢٨ يناير", "visits": 1180, "orders": 38, "sales": 285.4 },
+    { "date": "2025-01-29", "label": "٢٩ يناير", "visits": 1215, "orders": 40, "sales": 296.8 },
+    { "date": "2025-01-30", "label": "٣٠ يناير", "visits": 1230, "orders": 42, "sales": 310.2 },
+    { "date": "2025-01-31", "label": "٣١ يناير", "visits": 1255, "orders": 44, "sales": 324.7 },
+    { "date": "2025-02-01", "label": "١ فبراير", "visits": 1280, "orders": 45, "sales": 333.0 },
+    { "date": "2025-02-02", "label": "٢ فبراير", "visits": 1305, "orders": 46, "sales": 340.5 },
+    { "date": "2025-02-03", "label": "٣ فبراير", "visits": 1340, "orders": 48, "sales": 356.2 },
+    { "date": "2025-02-04", "label": "٤ فبراير", "visits": 1375, "orders": 49, "sales": 364.9 },
+    { "date": "2025-02-05", "label": "٥ فبراير", "visits": 1390, "orders": 50, "sales": 372.3 },
+    { "date": "2025-02-06", "label": "٦ فبراير", "visits": 1415, "orders": 52, "sales": 384.0 },
+    { "date": "2025-02-07", "label": "٧ فبراير", "visits": 1440, "orders": 53, "sales": 392.6 },
+    { "date": "2025-02-08", "label": "٨ فبراير", "visits": 1485, "orders": 55, "sales": 407.8 },
+    { "date": "2025-02-09", "label": "٩ فبراير", "visits": 1520, "orders": 57, "sales": 421.4 },
+    { "date": "2025-02-10", "label": "١٠ فبراير", "visits": 1555, "orders": 58, "sales": 435.9 }
+  ],
+  "trafficSources": [
+    { "name": "حملات إنستغرام", "sessions": 7200, "share": 42 },
+    { "name": "إعلانات تيك توك", "sessions": 4800, "share": 28 },
+    { "name": "إحالات العملاء", "sessions": 2600, "share": 15 },
+    { "name": "البحث العضوي", "sessions": 1800, "share": 10 },
+    { "name": "القائمة البريدية", "sessions": 840, "share": 5 }
+  ],
+  "recentOrders": [
+    {
+      "id": "ORD-20250210-001",
+      "customer": "سارة المطيري",
+      "package": "Instagram - باقة الاكسبلور",
+      "total": 15,
+      "status": "مكتمل",
+      "statusCode": "completed",
+      "date": "١٠ فبراير ٢٠٢٥",
+      "source": "حملات إنستغرام"
+    },
+    {
+      "id": "ORD-20250209-004",
+      "customer": "عبدالله السالم",
+      "package": "TikTok - باقة الانتشار الاقوى",
+      "total": 10,
+      "status": "قيد المراجعة",
+      "statusCode": "processing",
+      "date": "٩ فبراير ٢٠٢٥",
+      "source": "إعلانات تيك توك"
+    },
+    {
+      "id": "ORD-20250209-002",
+      "customer": "منى الدوسري",
+      "package": "Snapchat - 1,000 متابع",
+      "total": 25,
+      "status": "قيد التنفيذ",
+      "statusCode": "processing",
+      "date": "٩ فبراير ٢٠٢٥",
+      "source": "إحالات العملاء"
+    },
+    {
+      "id": "ORD-20250208-003",
+      "customer": "شركة النور",
+      "package": "YouTube - 4,000 ساعة مشاهدة",
+      "total": 30,
+      "status": "مكتمل",
+      "statusCode": "completed",
+      "date": "٨ فبراير ٢٠٢٥",
+      "source": "القائمة البريدية"
+    },
+    {
+      "id": "ORD-20250207-006",
+      "customer": "حسين العجمي",
+      "package": "Instagram - 10,000 متابع",
+      "total": 8,
+      "status": "ملغي",
+      "statusCode": "cancelled",
+      "date": "٧ فبراير ٢٠٢٥",
+      "source": "حملات إنستغرام"
+    },
+    {
+      "id": "ORD-20250207-002",
+      "customer": "نورة السهلي",
+      "package": "TikTok - الباقة المليونية",
+      "total": 20,
+      "status": "مكتمل",
+      "statusCode": "completed",
+      "date": "٧ فبراير ٢٠٢٥",
+      "source": "إعلانات تيك توك"
+    },
+    {
+      "id": "ORD-20250206-005",
+      "customer": "استوديو سما",
+      "package": "Instagram - 1,000 مشاهدات لايف",
+      "total": 5,
+      "status": "مكتمل",
+      "statusCode": "completed",
+      "date": "٦ فبراير ٢٠٢٥",
+      "source": "البحث العضوي"
+    },
+    {
+      "id": "ORD-20250205-003",
+      "customer": "بدر الفهد",
+      "package": "Twitter - 10,000 لايك",
+      "total": 6,
+      "status": "قيد المراجعة",
+      "statusCode": "pending",
+      "date": "٥ فبراير ٢٠٢٥",
+      "source": "إحالات العملاء"
+    }
+  ]
+}
