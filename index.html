@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aroma – عروض 50٪ وتنسيقات الهدايا</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-page: #f7fafb;
+      --bg-section-soft: #ebf7f3;
+      --bg-card: #ffffff;
+      --accent: #33b8a2;
+      --accent-soft: #e0f5ef;
+      --accent-dark: #21907e;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --badge-available: #3baf7a;
+      --badge-available-bg: #e5f7ee;
+      --discount: #f04438;
+      --border-soft: #e5e7eb;
+      --shadow-soft: 0 18px 35px rgba(15, 23, 42, 0.12);
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+    }
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e6f7f2, #c2ede1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: #1f2933;
+      border: 1px solid rgba(15,23,42,0.08);
+    }
+    .brand-text-main {
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+    }
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4b5563;
+    }
+    .nav-link span.icon { font-size: 14px; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .pill-ghost {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+    .lang-btn {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #111827;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    main { flex: 1; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 16px 40px 16px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .hero-copy-eyebrow {
+      font-size: 12px;
+      color: var(--accent-dark);
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-title {
+      margin: 12px 0 8px 0;
+      font-size: clamp(24px, 4vw, 30px);
+      font-weight: 700;
+    }
+    .hero-title span.highlight { color: var(--accent-dark); }
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 16px 0;
+    }
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-main {
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      background: #000000;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.4);
+      transition: transform 0.2s;
+    }
+    .btn-main:hover { transform: translateY(-2px); }
+    .hero-note { font-size: 12px; color: var(--text-muted); }
+    .hero-stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      font-size: 11px;
+    }
+    .hero-stat-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      color: #4b5563;
+    }
+
+    .hero-visual {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,0.04);
+    }
+    .hero-image {
+      background: linear-gradient(135deg, #fdfbf7, #ebf7f3);
+      padding: 22px;
+      position: relative;
+    }
+    .hero-image-main {
+      border-radius: 20px;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+    .hero-image-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      border-top: 1px solid var(--border-soft);
+      background: #ffffff;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .hero-discount-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(240,68,56,0.06);
+      color: var(--discount);
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    /* Offer bar */
+    .special-offer {
+      margin-top: 26px;
+      background: var(--bg-section-soft);
+      border-radius: var(--radius-xl);
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(15,23,42,0.06);
+    }
+    .special-offer-text-main {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .special-offer-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .btn-outline {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid #111827;
+      background: #ffffff;
+      color: #111827;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Section headings */
+    .section { margin-top: 30px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .section-link {
+      font-size: 12px;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Categories */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .category-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,0.04);
+      display: grid;
+      grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr);
+    }
+    .category-image {
+      background: linear-gradient(135deg, #fdfbf7, #ebf7f3);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .category-content {
+      padding: 14px 14px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .category-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .category-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .category-tag {
+      font-size: 11px;
+      color: var(--accent-dark);
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      align-self: flex-start;
+    }
+
+    /* Products grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .product-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-image-wrapper {
+      position: relative;
+      background: #f5faf7;
+      padding: 18px;
+    }
+    .product-image-bg {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+    .product-category {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.92);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #4b5563;
+      border: 1px solid rgba(15,23,42,0.06);
+    }
+    .badge-available {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: var(--badge-available-bg);
+      color: var(--badge-available);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--badge-available);
+    }
+    .product-body {
+      padding: 10px 14px 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1; /* Make body fill height */
+    }
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .product-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .price-current { font-weight: 700; }
+    .price-old {
+      font-size: 11px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      margin-inline-start: 4px;
+    }
+    .discount-pill {
+      background: rgba(240,68,56,0.06);
+      color: var(--discount);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .product-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-cart {
+      flex: 1;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      border: none;
+      background: #000000;
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.2s;
+    }
+    .btn-cart:hover { transform: translateY(-2px); }
+
+    /* ========================================= */
+    /* 🆕 تنسيقات الشريط المتحرك (Marquee) 🆕 */
+    /* ========================================= */
+    .product-footer {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-soft);
+      overflow: hidden; /* لإخفاء العناصر خارج الصندوق */
+    }
+    .similar-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex; 
+      justify-content: space-between;
+    }
+    .similar-track {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+      /* حركة لا نهائية لمدة 15 ثانية */
+      animation: scroll-horizontal 15s linear infinite;
+    }
+    .similar-track:hover {
+      animation-play-state: paused; /* إيقاف الحركة عند اللمس */
+    }
+    .similar-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: #fff;
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .similar-thumb:hover { border-color: var(--accent); }
+    .similar-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* تعريف الحركة */
+    @keyframes scroll-horizontal {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); } /* تحريك لليسار */
+    }
+
+    footer {
+      border-top: 1px solid rgba(15,23,42,0.06);
+      background: #ffffff;
+      padding: 14px 16px 20px 16px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    footer .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: minmax(0,1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav { padding-inline: 12px; }
+      .categories-grid,
+      .products-grid { grid-template-columns: minmax(0,1fr); }
+      .category-card { grid-template-columns: minmax(0,1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="nav">
+      <div class="nav-left">
+        <div class="logo-circle">A</div>
+        <div>
+          <div class="brand-text-main">AROMA</div>
+          <div class="brand-text-sub">عطور وعناية جسم بلمسة فاخرة</div>
+        </div>
+        <nav class="nav-links">
+          <a href="#top" class="nav-link"><span class="icon">🏠</span><span>الرئيسية</span></a>
+          <a href="#sets" class="nav-link">المجموعات</a>
+          <a href="#perfumes" class="nav-link">العطور</a>
+        </nav>
+      </div>
+      <div class="nav-right">
+        <div class="pill-ghost">خصم 50٪</div>
+        <button class="lang-btn">AR</button>
+        <div class="icon-circle">🛒</div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="container">
+
+      <section class="hero">
+        <div>
+          <div class="hero-copy-eyebrow">خصم 50٪ لفترة محدودة</div>
+          <h1 class="hero-title">
+            دللي نفسك مع <span class="highlight">مجموعات AROMA</span>
+          </h1>
+          <p class="hero-subtitle">
+            اكتشفي مجموعات العناية الفاخرة والروائح الثابتة بخصم 50٪.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#featured" class="btn-main">تسوّقي العروض <span>➜</span></a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-image">
+            <div class="hero-image-main">
+              <img src="https://drive.google.com/uc?export=view&id=1K1Sd3p11Pdqj2_BD8DeGL5EYwzpRXPhi" alt="Aroma Amor">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="featured">
+        <div class="section-head">
+          <div class="section-title">منتجات مميزة</div>
+        </div>
+
+        <div class="products-grid">
+
+          <article class="product-card" id="sets">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1K1Sd3p11Pdqj2_BD8DeGL5EYwzpRXPhi" alt="Aroma Amor">
+              </div>
+              <div class="product-category">المجموعات</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">Aroma Amor – عرض خاص</div>
+              <div class="product-sub">عطر، سنفرة، صابونية وكريم برائحة أنثوية.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">45 د.ك</span><span class="price-old">90 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+              
+              <div class="product-footer">
+                <div class="similar-label">منتجات قد تعجبك:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MHg7EEtpaXGySJctFt1W_A5gRjTqP0BV" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LN4bQYncAouttnBINotMBMJIcYGpS__Q" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MHg7EEtpaXGySJctFt1W_A5gRjTqP0BV" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LN4bQYncAouttnBINotMBMJIcYGpS__Q" alt="عطر"></a>
+                </div>
+              </div>
+
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1KIc3QnFyc3cxGlgqV-Hp0d3adD9ZJ4cZ" alt="Atractivo">
+              </div>
+              <div class="product-category">المجموعات</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">Atractivo – عرض خاص</div>
+              <div class="product-sub">مجموعة الجاذبية: عطر مميز مع روتين جسم ناعم.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">38 د.ك</span><span class="price-old">76 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">يكمل مجموعتك:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LF2kJNJdm_SK2QiBAkRZrNZnX1kMVd1c" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LF2kJNJdm_SK2QiBAkRZrNZnX1kMVd1c" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="Calida">
+              </div>
+              <div class="product-category">المجموعات</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">Calida – عرض خاص</div>
+              <div class="product-sub">مجموعة دافئة بلمسة كريمية وترطيب عالي.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">45 د.ك</span><span class="price-old">90 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">جربي أيضاً:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LrqDzSCxHVJQ64EIXZyYGVPfROODND1S" alt="صابونة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=12g9BkwhVLhyeCBh8dk7D4f2ihbPv_PiH" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LrqDzSCxHVJQ64EIXZyYGVPfROODND1S" alt="صابونة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=12g9BkwhVLhyeCBh8dk7D4f2ihbPv_PiH" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" id="perfumes">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1LN4bQYncAouttnBINotMBMJIcYGpS__Q" alt="Amor Perfume">
+              </div>
+              <div class="product-category">العطور</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">AROMA AMOR – عطر</div>
+              <div class="product-sub">عطر أنثوي رومانسي بثبات عالي للمناسبات.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">19 د.ك</span><span class="price-old">38 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">أكملي الروتين بنفس الريحة:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MHg7EEtpaXGySJctFt1W_A5gRjTqP0BV" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MPcVmT-gwoyvgVEd6KHN0HrYtAVGB3l2" alt="صابونية"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MHg7EEtpaXGySJctFt1W_A5gRjTqP0BV" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MPcVmT-gwoyvgVEd6KHN0HrYtAVGB3l2" alt="صابونية"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="Calida">
+              </div>
+              <div class="product-category">العطور</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">Calida – عطر</div>
+              <div class="product-sub">عطر دافئ وفخم بلمسة كريمية ناعمة.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">19 د.ك</span><span class="price-old">38 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">أكملي مجموعة Calida:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LrqDzSCxHVJQ64EIXZyYGVPfROODND1S" alt="صابونية"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=12g9BkwhVLhyeCBh8dk7D4f2ihbPv_PiH" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LrqDzSCxHVJQ64EIXZyYGVPfROODND1S" alt="صابونية"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=12g9BkwhVLhyeCBh8dk7D4f2ihbPv_PiH" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1LuWn_xyEIBmm4LJqcxHcGMuG-5zQ7Dgf" alt="Jayden">
+              </div>
+              <div class="product-category">العطور</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">جايدن – عطر</div>
+              <div class="product-sub">عطر ناعم وثابت يعكس شخصية جايدن الخاصة.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">19 د.ك</span><span class="price-old">38 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">روتين جايدن الكامل:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MPcVmT-gwoyvgVEd6KHN0HrYtAVGB3l2" alt="صابونية"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MPcVmT-gwoyvgVEd6KHN0HrYtAVGB3l2" alt="صابونية"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="Mist">
+              </div>
+              <div class="product-category">العطور</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">عطر الشعر</div>
+              <div class="product-sub">رائحة خفيفة وثابتة للشعر بدون ما تثقل عليه.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">12 د.ك</span><span class="price-old">24 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">نسقيها مع:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LN4bQYncAouttnBINotMBMJIcYGpS__Q" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="Calida"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LN4bQYncAouttnBINotMBMJIcYGpS__Q" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MGMvBKKpN0r4raASOWOsThN24P1vclgn" alt="كريم"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MXZlRu1HxPpMHm0ihnHvxBZDOc4UFHnL" alt="Calida"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image-wrapper">
+              <div class="product-image-bg">
+                <img src="https://drive.google.com/uc?export=view&id=1MPcVmT-gwoyvgVEd6KHN0HrYtAVGB3l2" alt="Soap">
+              </div>
+              <div class="product-category">الصوابين</div>
+              <div class="badge-available"><span class="badge-dot"></span> متوفر</div>
+            </div>
+            <div class="product-body">
+              <div class="product-name">Jayden – صابونة الجسم</div>
+              <div class="product-sub">صابونية ناعمة تنظّف بلطف برائحة جايدن.</div>
+              <div class="product-price-row">
+                <div><span class="price-current">8 د.ك</span><span class="price-old">16 د.ك</span></div>
+                <div class="discount-pill">50٪ OFF</div>
+              </div>
+              <div class="product-actions">
+                <a href="#" class="btn-cart">أضِف للسلة <span>🛒</span></a>
+              </div>
+
+              <div class="product-footer">
+                <div class="similar-label">أكملي روتين Jayden:</div>
+                <div class="similar-track">
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LuWn_xyEIBmm4LJqcxHcGMuG-5zQ7Dgf" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1LuWn_xyEIBmm4LJqcxHcGMuG-5zQ7Dgf" alt="عطر"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1M3vipTlIg_k2n4m93PxKWUuI-11UWGT6" alt="سنفرة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1MI8Y1ecrL_frf-No-teH0pYcXPqyO-Bo" alt="زبدة"></a>
+                  <a href="#" class="similar-thumb"><img src="https://drive.google.com/uc?export=view&id=1L70Tn2eubdrqdhPlGKZYOHlJI9ZAVFgb" alt="شعر"></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>AROMA – جميع الحقوق محفوظة.</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
